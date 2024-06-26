@@ -14,7 +14,9 @@
 
                     @forelse($notes as $note)
                         <div class="my-6 p-6 bg-white dark:bg-gray-900 border-gray-200 shadow-sm sm:rounded-lg dark:text-gray-200">
-                            <h2 class="font-bold text-2xl">{{ $note->title }}</h2>
+                            <h2 class="font-bold text-2xl">
+                                <a href="{{ route('notes.show', $note->uuid) }}">{{ $note->title }}</a>
+                            </h2>
                             <p class="mt-2">{{ Str::limit($note->body, 100) }}</p>
                             <span class="block mt-4 text-sm opacity-75">{{ $note->updated_at->diffForHumans() }}</span>
                         </div>

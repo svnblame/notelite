@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class NoteController extends Controller
 {
@@ -29,12 +30,17 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedAttributes = $request->validate([
+        $request->merge(['uuid' => Str::uuid()->toString()]);
+
+        dump($request->all());
+
+        $validAttributes = $request->validate([
             'title' => 'required|min:1|max:120',
             'body' => 'required',
+            'uuid' => 'required|uuid',
         ]);
 
-        auth()->user()->notes()->create($validatedAttributes);
+        auth()->user()->notes()->create($validAttributes);
 
         return redirect('/notes');
     }
@@ -42,9 +48,11 @@ class NoteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $uuid)
     {
-        //
+        $note = auth()->user()->notes()->where('uuid', $uuid)->firstOrFail();
+
+        return view('notes.show')->with('note', $note);
     }
 
     /**
