@@ -11,9 +11,9 @@ class NoteController extends Controller
      */
     public function index()
     {
-        $notes = auth()->user()->notes()->latest('updated_at')->get();
+        $notes = auth()->user()->notes()->latest('updated_at')->paginate(3);
 
-        return view('notes.index')->with('notes', $notes);
+        return view('notes.index')->with('notes', $notes)  ;
     }
 
     /**
