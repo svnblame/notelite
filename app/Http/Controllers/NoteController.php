@@ -21,7 +21,7 @@ class NoteController extends Controller
      */
     public function create()
     {
-        //
+        return view('notes.create');
     }
 
     /**
@@ -29,7 +29,14 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedAttributes = $request->validate([
+            'title' => 'required|min:1|max:120',
+            'body' => 'required',
+        ]);
+
+        auth()->user()->notes()->create($validatedAttributes);
+
+        return redirect('/notes');
     }
 
     /**
