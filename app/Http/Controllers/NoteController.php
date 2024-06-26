@@ -11,7 +11,15 @@ class NoteController extends Controller
      */
     public function index()
     {
-        //
+        $notes = auth()->user()->notes()->latest('updated_at')->get();
+
+        $notes->each(function ($note) {
+            dump($note->title);
+        });
+
+        die();
+
+        return view('notes.index', compact('notes'));
     }
 
     /**
