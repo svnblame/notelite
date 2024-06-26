@@ -13,13 +13,7 @@ class NoteController extends Controller
     {
         $notes = auth()->user()->notes()->latest('updated_at')->get();
 
-        $notes->each(function ($note) {
-            dump($note->title);
-        });
-
-        die();
-
-        return view('notes.index', compact('notes'));
+        return view('notes.index')->with('notes', $notes);
     }
 
     /**
